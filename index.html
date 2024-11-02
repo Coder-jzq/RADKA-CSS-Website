@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Retrieval-Augmented Dialogue Knowledge Aggregation for Expressive Conversational Speech Synthesis</title>
+		<link type="text/css" href="./css/basic.css" rel="stylesheet">
+		<link type="text/css" href="./css/index.css" rel="stylesheet">
+		<link type="text/css" href="./css/bootstrap.min.css" rel="stylesheet">
+		<script type='text/javascript' src="./js/jquery-3.3.1.min.js"></script>
+		<script type='text/javascript' src="./js/index.js"></script>
+	</head>
+	<body>
+		
+		<div class="main">
+			<div class="title">
+				<img class="top-img" src="img/background.png" />
+				<span>Retrieval-Augmented Dialogue Knowledge Aggregation for Expressive Conversational Speech Synthesis</span>
+			</div>
+			<div class="content">
+				<div class="section author">
+				</div>
+				<div class="section">
+					<div class="section-title">Abstract</div>
+					<div class="section-content abstract">
+						Conversational speech synthesis (CSS) aims to take the current dialogue history (CDH) as reference to synthesize expressive speech that aligns with the conversational style. Unlike CDH, historical dialogue history (HDH) contains dialogue logs preserved from earlier periods of user-agent interaction, which also contains rich conversational style expression knowledge. Note that this knowledge also play an important role in how the agent can better synthesize expressive conversational speech to generate empathetic feedback. However, previous research overlooks this aspect. To address this issue, we propose a novel Retrieval-Augmented Knowledge Aggregation scheme for expressive CSS, termed ReKA-CSS, that includes three main components: 1) To effectively retrieve style knowledge from HDH, we employ a two-stage retrieval-augmented mechanism. In stage 1, we match CDH to HDH dialogues for style similarity and retrieve the most similar Top K dialogues. In stage 2, we propose a multi-granularity heterogeneous graph (MgHG) to model retrieved dialogue. Subsequently, the dialogue style-linguistic contrastive learning module extracts dialogue-level style-related text features from the dialogue text. 2) For CDH, we also employ the MgHG structure to capture the rich style knowledge. 3) At last, these two kinds of style knowledge of CDH and HDH are aggregated and fed to the speech synthesizer to help the CSS model synthesize expressive speech that conforms to the conversational style. Both objective and subjective evaluations suggest that our model outperforms the baseline models in expressiveness rendering. Code and audio samples can be found at: https://github.com/AAAI2025-CSS/ReKA-CSS.
+					</div>
+				</div>
+				
+				<div class="section">
+					<div class="section-title">MODEL ARCHITECTURE</div>
+					<div class="section-content model">
+						<img src="./img/Fig2-ReKA-CSS-main-c.png" alt="" class="model-img">
+						
+						<p style="padding-top: 1rem; color: #a1a1a1; font-size: 1rem; text-align: center;">Figure: The overview of ReKA-CSS, that consists of Historical Dialogue History Knowledge Retrieving, Current Dialogue History Knowledge Modeling, Knowledge Aggregator, and Speech Synthesizer.</p>
+					</div>
+				</div>
+				
+				
+				<div class="section">
+					<div class="section-title">Experiments</div>
+					<div class="section-content experiments">
+						<!-- We develop four neural TTS systems for a  -->
+						 <strong>Comparative Experiment:</strong>
+						 </br> 1) <b>DailyTalk</b> is an advanced CTTS baseline. It proposes coarse-grained text context modeling in dialogue history to enhance speech expressiveness.
+						 </br> 2) <b>M²-CTTS</b> designs a textual context module and an acoustic context module with both coarse-grained and fine-grained modeling, generating speech with better prosody and naturalness.
+						 </br> 3) <b>Homogeneous Graph-based CSS</b> adopts the homogeneous graph to model the multi-modal context in conversation, inferring both the global and local speaking styles of the current utterance.
+						 </br> 4) <b>CONCSS</b> incorporates a contrastive learning module to ensure the discriminability of contextual features during dialogue history modeling.
+						 </br> 5) <b>ECSS</b> is an emotional expressive conversational speech synthesis model. It constructs multi-source knowledge into a heterogeneous graph and incorporates an emotion prediction task to synthesize emotionally expressive speech.
+						 </br><strong>Ablation Experiment:</strong>
+						 </br> 1) <b>ReKA-CSS w/o Knowledge1 (检索知识)</b>, xxx.
+						 </br> 2) <b>ReKA-CSS w/o Knowledge2 (CD文本知识)</b>, xxx.
+						 </br> 3) <b>ReKA-CSS w/o Knowledge3 (CD音频知识)</b>, xxx.
+						 </br> 4) <b>ReKA-CSS w/o Knowledge4 (a_N 风格)</b>, xxx.
+						 </br> 5) <b>ReKA-CSS w/o 异构图</b>, xxx.
+						 </br> 6) <b>ReKA-CSS w/o 多尺度</b>, xxx.
+						 </br> 7) <b>ReKA-CSS w/o 知识聚合方法</b>, xxx.
+						 </br> 8) <b>ReKA-CSS w GT(检索内容为 GT)</b>, xxx.
+					
+					
+						
+					</div>
+					<div class="section-content ">
+						<hr />
+						<div class="subsection-exp-2">
+							
+							<!-- 一句话分割 -->
+							<div class="module-content">
+								<span class="note">Umm, maybe you are right, so I will try my best to find a suitable job.</span>
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col width=10%></col>
+										   <col width=25%></col>
+										   <col width=20%></col>
+										</colgroup>
+										<tr>
+										  <th colspan="1" style="text-align: center"><strong>Conversation history</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>text</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>speech</strong></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td style="text-align: center">1<sup>th</sup></td>
+											<td style="text-align: center">I plan to immigrate to Canada.</td>
+											<td style="text-align: center"><audio src="./audio/history/176/0_0_d176.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">2<sup>th</sup></td>
+											<td style="text-align: center">Have you found a suitable job?</td>
+											<td style="text-align: center"><audio src="./audio/history/176/1_1_d176.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">3<sup>th</sup></td>
+											<td style="text-align: center">No. But it is said the welfare in Canada is very good.</td>
+											<td style="text-align: center"><audio src="./audio/history/176/2_0_d176.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">4<sup>th</sup></td>
+											<td style="text-align: center">But as to me finding a good job is the most important thing.</td>
+											<td style="text-align: center"><audio src="./audio/history/176/3_1_d176.wav" controls="" preload=""></audio></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="module-content">
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col></col>
+										</colgroup>
+										<tr>
+										  <th colspan="1" style="text-align: center"><strong>Comparative</strong></th>
+										</tr>
+									</thead>
+								</table>
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col width=15%></col>
+										   <col width=25%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										</colgroup>
+										<tr>
+										  <th colspan="1" style="text-align: center"><strong>current</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>text</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ground Truth</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>DailyTalk</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>M²-CTTS</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Homogeneous Graph-based CSS</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>CONCSS</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>ECSS</strong></th>
+										  <th colspan="1" style="text-align: center"><strong style="color: #1d5da4;">ReKA-CSS</strong></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td style="text-align: center">5<sup>th</sup></td>
+											<td style="text-align: center">Umm, maybe you are right, so I will try my best to find a suitable job.</td>
+											<td style="text-align: center"><audio src="./audio/wav_reconstruction/4_0_d176.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/DailyTalk/4_0_d176.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/M2CTTS/4_0_d176.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/GCN-based/4_0_d176.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/CONCSS/4_0_d176.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/ECSS/4_0_d176.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/ours/4_0_d176.wav" controls="" preload=""></audio></td>
+										</tr>
+									</tbody>
+								</table>
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col></col>
+										</colgroup>
+										<tr>
+										  <th colspan="1" style="text-align: center"><strong>Ablation</strong></th>
+										</tr>
+									</thead>
+								</table>
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										</colgroup>
+										<tr>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 1</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 2</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 3</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 4</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 5</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 6</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 7</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 8</strong></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td style="text-align: center"><audio src="./audio/Abl1/4_0_d176.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl2/4_0_d176.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl3/4_0_d176.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl4/4_0_d176.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl5/4_0_d176.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl6/4_0_d176.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl7/4_0_d176.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl8/4_0_d176.wav" controls="" preload=""></audio></td>
+										</tr>
+									</tbody>
+								</table>
+								
+								<!-- <table id="table_4">
+									<thead>
+										<colgroup>
+										   <col></col>
+										</colgroup>
+										<tr>
+										  <th colspan="1" style="text-align: center"><strong>Analysis</strong></th>
+										</tr>
+									</thead>
+								</table>
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										</colgroup>
+										<tr>
+										  <th colspan="1" style="text-align: center"><strong>TopK=5</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>TopK=15</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>TopK=10 and N=5</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Topk=10 and N=15</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Audio Concatenation</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Semantic</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Random</strong></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td style="text-align: center"><audio src="./audio/analysis-topk5/4_0_d176.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/analysis-topk15/4_0_d176.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/analysis-N5/4_0_d176.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/analysis-N15/4_0_d176.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/analysis-audiocat/4_0_d176.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/analysis-conversation/4_0_d176.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/analysis-random/4_0_d176.wav" controls="" preload=""></audio></td>
+										</tr>
+									</tbody> -->
+								</table>
+							</div>
+							
+							<!-- 一句话分割 -->
+							
+							
+							<!-- 一句话分割 -->
+							<div class="module-content">
+								<span class="note">Umm…. You're making me a believer.</span>
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col width=10%></col>
+										   <col width=25%></col>
+										   <col width=20%></col>
+										</colgroup>
+										<tr>
+										  <th colspan="1" style="text-align: center"><strong>Conversation history</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>text</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>speech</strong></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td style="text-align: center">1<sup>th</sup></td>
+											<td style="text-align: center">Have you ever done your shopping at Whole Foods market?</td>
+											<td style="text-align: center"><audio src="./audio/history/201/0_0_d201.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">2<sup>th</sup></td>
+											<td style="text-align: center">I haven't shopped there. How is the food?</td>
+											<td style="text-align: center"><audio src="./audio/history/201/1_1_d201.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">3<sup>th</sup></td>
+											<td style="text-align: center">The food there is wonderful.</td>
+											<td style="text-align: center"><audio src="./audio/history/201/2_0_d201.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">4<sup>th</sup></td>
+											<td style="text-align: center">I go to Sons for my groceries.</td>
+											<td style="text-align: center"><audio src="./audio/history/201/3_1_d201.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">5<sup>th</sup></td>
+											<td style="text-align: center">I prefer the food at Whole Foods.</td>
+											<td style="text-align: center"><audio src="./audio/history/201/4_0_d201.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">6<sup>th</sup></td>
+											<td style="text-align: center">Is there something wrong with Sons?</td>
+											<td style="text-align: center"><audio src="./audio/history/201/5_1_d201.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">7<sup>th</sup></td>
+											<td style="text-align: center">Sons doesn't offer a lot of organic foods.</td>
+											<td style="text-align: center"><audio src="./audio/history/201/6_0_d201.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">8<sup>th</sup></td>
+											<td style="text-align: center">Do they offer organic foods at Whole Foods?</td>
+											<td style="text-align: center"><audio src="./audio/history/201/7_1_d201.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">9<sup>th</sup></td>
+											<td style="text-align: center">Yes, that's the place to go to get healthier food.</td>
+											<td style="text-align: center"><audio src="./audio/history/201/8_0_d201.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">10<sup>th</sup></td>
+											<td style="text-align: center">Maybe I'll try that store out..</td>
+											<td style="text-align: center"><audio src="./audio/history/201/9_1_d201.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">11<sup>th</sup></td>
+											<td style="text-align: center">If you like Sons, then I'm sure you'll love Whole Foods.</td>
+											<td style="text-align: center"><audio src="./audio/history/201/10_0_d201.wav" controls="" preload=""></audio></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="module-content">
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col></col>
+										</colgroup>
+										<tr>
+										  <th colspan="1" style="text-align: center"><strong>Comparative</strong></th>
+										</tr>
+									</thead>
+								</table>
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col width=15%></col>
+										   <col width=25%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										</colgroup>
+										<tr>
+										  <th colspan="1" style="text-align: center"><strong>current</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>text</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ground Truth</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>DailyTalk</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>M²-CTTS</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Homogeneous Graph-based CSS</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>CONCSS</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>ECSS</strong></th>
+										  <th colspan="1" style="text-align: center"><strong style="color: #1d5da4;">ReKA-CSS</strong></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td style="text-align: center">12<sup>th</sup></td>
+											<td style="text-align: center">Umm…. You're making me a believer.</td>
+											<td style="text-align: center"><audio src="./audio/wav_reconstruction/11_1_d201.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/DailyTalk/11_1_d201.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/M2CTTS/11_1_d201.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/GCN-based/11_1_d201.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/CONCSS/11_1_d201.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/ECSS/11_1_d201.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/ours/11_1_d201.wav" controls="" preload=""></audio></td>
+										</tr>
+									</tbody>
+								</table>
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col></col>
+										</colgroup>
+										<tr>
+										  <th colspan="1" style="text-align: center"><strong>Ablation</strong></th>
+										</tr>
+									</thead>
+								</table>
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										</colgroup>
+										<tr>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 1</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 2</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 3</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 4</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 5</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 6</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 7</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 8</strong></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td style="text-align: center"><audio src="./audio/Abl1/11_1_d201.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl2/11_1_d201.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl3/11_1_d201.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl4/11_1_d201.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl5/11_1_d201.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl6/11_1_d201.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl7/11_1_d201.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl8/11_1_d201.wav" controls="" preload=""></audio></td>
+										</tr>
+									</tbody>
+								</table>
+								
+								<!-- <table id="table_4">
+									<thead>
+										<colgroup>
+										   <col></col>
+										</colgroup>
+										<tr>
+										  <th colspan="1" style="text-align: center"><strong>Analysis</strong></th>
+										</tr>
+									</thead>
+								</table>
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										</colgroup>
+										<tr>
+										  <th colspan="1" style="text-align: center"><strong>TopK=5</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>TopK=15</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>TopK=10 and N=5</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Topk=10 and N=15</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Audio Concatenation</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Semantic</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Random</strong></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td style="text-align: center"><audio src="./audio/analysis-topk5/11_1_d201.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/analysis-topk15/11_1_d201.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/analysis-N5/11_1_d201.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/analysis-N15/11_1_d201.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/analysis-audiocat/11_1_d201.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/analysis-conversation/11_1_d201.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/analysis-random/11_1_d201.wav" controls="" preload=""></audio></td>
+										</tr>
+									</tbody>
+								</table> -->
+							</div>
+							
+							<!-- 一句话分割 -->
+							
+							<!-- 一句话分割 -->
+							<div class="module-content">
+								<span class="note">I'm sure you'll enjoy your workout, sir. Everyone seems to like the swim stations.</span>
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col width=10%></col>
+										   <col width=25%></col>
+										   <col width=20%></col>
+										</colgroup>
+										<tr>
+										  <th colspan="1" style="text-align: center"><strong>Conversation history</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>text</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>speech</strong></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td style="text-align: center">1<sup>th</sup></td>
+											<td style="text-align: center">Do you have a swimming pool in this hotel?</td>
+											<td style="text-align: center"><audio src="./audio/history/1496/0_0_d1496.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">2<sup>th</sup></td>
+											<td style="text-align: center">We don't have a swimming pool, sir, umm but we do have swim stations in the gym.</td>
+											<td style="text-align: center"><audio src="./audio/history/1496/1_1_d1496.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">3<sup>th</sup></td>
+											<td style="text-align: center">I never heard of a swim station. Is that like a train or bus station?</td>
+											<td style="text-align: center"><audio src="./audio/history/1496/2_0_d1496.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">4<sup>th</sup></td>
+											<td style="text-align: center">It's just a deep bathtub with a current of water that you swim against.</td>
+											<td style="text-align: center"><audio src="./audio/history/1496/3_1_d1496.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">5<sup>th</sup></td>
+											<td style="text-align: center">Holy cow! I never heard of such a thing. How much do they cost?</td>
+											<td style="text-align: center"><audio src="./audio/history/1496/4_0_d1496.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">6<sup>th</sup></td>
+											<td style="text-align: center">As a guest, sir, you pay nothing.</td>
+											<td style="text-align: center"><audio src="./audio/history/1496/5_1_d1496.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">7<sup>th</sup></td>
+											<td style="text-align: center">This sounds better every second. Now, when can I use the stations?</td>
+											<td style="text-align: center"><audio src="./audio/history/1496/6_0_d1496.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">8<sup>th</sup></td>
+											<td style="text-align: center">If you want to swim, you can visit the gym any day between seven a.m. and ten p.m.</td>
+											<td style="text-align: center"><audio src="./audio/history/1496/7_1_d1496.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">9<sup>th</sup></td>
+											<td style="text-align: center">Oh, boy! This is going to be great. I'm going to the gym right now!</td>
+											<td style="text-align: center"><audio src="./audio/history/1496/8_0_d1496.wav" controls="" preload=""></audio></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="module-content">
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col></col>
+										</colgroup>
+										<tr>
+										  <th colspan="1" style="text-align: center"><strong>Comparative</strong></th>
+										</tr>
+									</thead>
+								</table>
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col width=15%></col>
+										   <col width=25%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										</colgroup>
+										<tr>
+										  <th colspan="1" style="text-align: center"><strong>current</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>text</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ground Truth</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>DailyTalk</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>M²-CTTS</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Homogeneous Graph-based CSS</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>CONCSS</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>ECSS</strong></th>
+										  <th colspan="1" style="text-align: center"><strong style="color: #1d5da4;">ReKA-CSS</strong></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td style="text-align: center">10<sup>th</sup></td>
+											<td style="text-align: center">I'm sure you'll enjoy your workout, sir. Everyone seems to like the swim stations.</td>
+											<td style="text-align: center"><audio src="./audio/wav_reconstruction/9_1_d1496.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/DailyTalk/9_1_d1496.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/M2CTTS/9_1_d1496.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/GCN-based/9_1_d1496.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/CONCSS/9_1_d1496.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/ECSS/9_1_d1496.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/ours/9_1_d1496.wav" controls="" preload=""></audio></td>
+										</tr>
+									</tbody>
+								</table>
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col></col>
+										</colgroup>
+										<tr>
+										  <th colspan="1" style="text-align: center"><strong>Ablation</strong></th>
+										</tr>
+									</thead>
+								</table>
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										</colgroup>
+										<tr>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 1</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 2</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 3</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 4</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 5</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 6</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 7</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 8</strong></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td style="text-align: center"><audio src="./audio/Abl1/9_1_d1496.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl2/9_1_d1496.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl3/9_1_d1496.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl4/9_1_d1496.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl5/9_1_d1496.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl6/9_1_d1496.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl7/9_1_d1496.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl8/9_1_d1496.wav" controls="" preload=""></audio></td>
+										</tr>
+									</tbody>
+								</table>
+								
+							
+							<!-- 一句话分割 -->
+							<div class="module-content">
+								<span class="note">It must be interesting.</span>
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col width=10%></col>
+										   <col width=25%></col>
+										   <col width=20%></col>
+										</colgroup>
+										<tr>
+										  <th colspan="1" style="text-align: center"><strong>Conversation history</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>text</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>speech</strong></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td style="text-align: center">1<sup>th</sup></td>
+											<td style="text-align: center">It's so boring.</td>
+											<td style="text-align: center"><audio src="./audio/history/1399/0_0_d1399.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">2<sup>th</sup></td>
+											<td style="text-align: center">Don't you like it?</td>
+											<td style="text-align: center"><audio src="./audio/history/1399/1_1_d1399.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">3<sup>th</sup></td>
+											<td style="text-align: center">I don't. Is there anything worth watching on the other channel?</td>
+											<td style="text-align: center"><audio src="./audio/history/1399/2_0_d1399.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">4<sup>th</sup></td>
+											<td style="text-align: center">Umm I think it's a basketball match on channel five.</td>
+											<td style="text-align: center"><audio src="./audio/history/1399/3_1_d1399.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">5<sup>th</sup></td>
+											<td style="text-align: center">Do you mind if we switch over?</td>
+											<td style="text-align: center"><audio src="./audio/history/1399/4_0_d1399.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">6<sup>th</sup></td>
+											<td style="text-align: center">Well, I'd rather see a movie.</td>
+											<td style="text-align: center"><audio src="./audio/history/1399/5_1_d1399.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">7<sup>th</sup></td>
+											<td style="text-align: center">What's the movie?</td>
+											<td style="text-align: center"><audio src="./audio/history/1399/6_0_d1399.wav" controls="" preload=""></audio></td>
+										</tr>
+										<tr>
+											<td style="text-align: center">8<sup>th</sup></td>
+											<td style="text-align: center">Star war.</td>
+											<td style="text-align: center"><audio src="./audio/history/1399/7_1_d1399.wav" controls="" preload=""></audio></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class="module-content">
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col></col>
+										</colgroup>
+										<tr>
+										  <th colspan="1" style="text-align: center"><strong>Comparative</strong></th>
+										</tr>
+									</thead>
+								</table>
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col width=15%></col>
+										   <col width=25%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										</colgroup>
+										<tr>
+										  <th colspan="1" style="text-align: center"><strong>current</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>text</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ground Truth</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>DailyTalk</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>M²-CTTS</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Homogeneous Graph-based CSS</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>CONCSS</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>ECSS</strong></th>
+										  <th colspan="1" style="text-align: center"><strong style="color: #1d5da4;">ReKA-CSS</strong></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td style="text-align: center">9<sup>th</sup></td>
+											<td style="text-align: center">It must be interesting.</td>
+											<td style="text-align: center"><audio src="./audio/wav_reconstruction/8_0_d1399.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/DailyTalk/8_0_d1399.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/M2CTTS/8_0_d1399.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/GCN-based/8_0_d1399.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/CONCSS/8_0_d1399.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/ECSS/8_0_d1399.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/ours/8_0_d1399.wav" controls="" preload=""></audio></td>
+										</tr>
+									</tbody>
+								</table>
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col></col>
+										</colgroup>
+										<tr>
+										  <th colspan="1" style="text-align: center"><strong>Ablation</strong></th>
+										</tr>
+									</thead>
+								</table>
+								<table id="table_4">
+									<thead>
+										<colgroup>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										   <col width=20%></col>
+										</colgroup>
+										<tr>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 1</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 2</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 3</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 4</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 5</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 6</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 7</strong></th>
+										  <th colspan="1" style="text-align: center"><strong>Ablation 8</strong></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td style="text-align: center"><audio src="./audio/Abl1/8_0_d1399.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl2/8_0_d1399.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl3/8_0_d1399.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl4/8_0_d1399.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl5/8_0_d1399.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl6/8_0_d1399.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl7/8_0_d1399.wav" controls="" preload=""></audio></td>
+											<td style="text-align: center"><audio src="./audio/Abl8/8_0_d1399.wav" controls="" preload=""></audio></td>
+										</tr>
+									</tbody>
+								</table>
+							
+						</div>
+						<hr />
+					</div>
+				
+				
+					<div class="section-title">Case Study</div>
+					<div class="section-content case-study">
+						<p>
+							We present the current dialogue along with the Top 1, Top 2, Top 3, and Top 10 dialogues retrieved by ReKA-CSS that are most similar in conversational style to the current dialogue, as well as the Bottom 1, Bottom 2, Bottom 3, and Bottom 10 dialogues that are the least similar in conversational style.
+						</p>
+						<p>
+							The similarity between conversational styles is calculated using cosine similarity. We found that the scenes of dialogues with similar styles are remarkably similar to the current dialogue scene, while the scenes of dialogues with dissimilar styles are completely unrelated to the current dialogue scene. Additionally, in terms of subjective perception, it is easy to sense that the styles of the retrieved similar dialogues closely match the current dialogue, while dialogues with dissimilar styles are also distinctly different in terms of auditory perception.
+						</p>
+					</div>
+					<div class="section-content case-study" style="background-color: #f6f6f6;">
+						<div style="text-align: center;"><span style="font-weight: 700; font-size: 1.5rem;">Current Dialogue</span><br/></div>
+						<br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t1: </span> Good afternoon, San Felice Hotel. May I help you? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t2: </span> Yes. I'd like to book a room, please. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t3: </span> Certainly. When for, madam? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t4: </span> March the twenty third. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t5: </span> Umm how long will you be staying? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t6: </span> Three nights. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t7: </span> What kind of room would you like, madam? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t8: </span> Er... double with bath. I'd appreciate it if you could give me a room with a view over the lake. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t9: </span> Certainly, madam. I'll just check what we have available... Yes, we have a room on the fourth floor with a really splendid view. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t10: </span> Fine. How much is the charge per night? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t11: </span> Would you like breakfast? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t12: </span> No, thanks. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t13: </span> It's eighty four euro per night excluding VAT. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t14: </span> That's fine. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t15: </span> Who's the booking for, please, madam? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t16: </span> Mr. and Mrs. Ryefield, that's R-Y-E-F-I-E-L-D. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t17: </span> OK, let me make sure I got that. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t18: </span> Yes it is. Thank you. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t19: </span> Let me give you your confirmation number. It's seven five seven six three eight five. Thank you for choosing San Felice Hotel and have a nice day. Goodbye. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t20: </span> Goodbye. <br/><br/>
+						<audio src="./audio/case-study/940_all.wav" controls="" preload=""></audio>
+					</div>
+					
+					
+					
+					<div class="section-content case-study" style="background-color: #d7f1f8;  height: 100%;">
+						<div style="text-align: center;"><span style="font-weight: 700; font-size: 1.5rem;">Top 1 in Conversational style similarity ranking (Similarity: 0.794)</span><br/></div>
+						<br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t1: </span> Royal Hotel, can I help you? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t2: </span> Yes. I urgently need a room for tomorrow night, and do you have any vacancies? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t3: </span> Yes, we have. What kind of room would you like? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t4: </span> I'd like a suite with an ocean view, please. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t5: </span> No problem, sir. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t6: </span> Umm what is the price of the suite? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t7: </span> It is two hundred dollars per night. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t8: </span> It is a little high. I'm told that your hotel is offering discount now. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t9: </span> Yes, but the offer ended yesterday. I'm sorry. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t10: </span> Oh, I see. Then do you have anything less expensive? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t11: </span> No, sir. So far it is the least expensive suite for tomorrow night. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t12: </span> OK, I will take it. By the way, does the price include breakfast? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t13: </span> Yes, it does. Now could I have your name, please? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t14: </span> My name is David White. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t15: </span> Would you kindly spell it for me? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t16: </span> That's D-A-V-I-D, W-H-I-T-E. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t17: </span> Thank you, I got it. And how long do you expect to stay? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t18: </span> About three days. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t19: </span> OK. Our check-in time is after twelve. And see you tomorrow. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t20: </span> Thank you. See you. <br/><br/>
+						<audio src="./audio/case-study/2226_all.wav" controls="" preload=""></audio>
+					</div>
+					
+					
+					
+					<div class="section-content case-study" style="background-color: #d7f1f8;">
+						<div style="text-align: center;"><span style="font-weight: 700; font-size: 1.5rem;">Top2 in Conversational style similarity ranking (Similarity: 0.783)</span><br/></div>
+						<br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t1: </span> Good morning, sir. How may I help you? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t2: </span> Good morning! Do you have any rooms available at the moment? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t3: </span> Yes, we do. What kind of room would you like? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t4: </span> I'd like a suite for four nights. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t5: </span> Please wait a moment while I check availability. Ah, I'm sorry, sir. We only have a double room available now. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t6: </span> That's all right. Umm how much do they cost? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t7: </span> Each night costs three twenty RIB, but for a four night stay, we can offer a discount of fifteen percent. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t8: </span> How much in total? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t9: </span> Ten thousand eighty eight RIB. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t10: </span> Is breakfast included? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t11: </span> Yes, it is. You also have free use of the leisure facilities here. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t12: </span> That's fine. I'll get it. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t13: </span> OK. Please fill out this form with your details. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t14: </span> I would like to pay by cash. Do I need to pay a deposit? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t15: </span> Yes, you do. There is a three hundred RIB deposit, which we will refund when you check out. So, in total, you need to pay thirteen eighty eight RIB. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t16: </span> Fine. Here you are. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t17: </span> Here's your key and receipt. Your room number is four o eight. A porter will take your luggage to your room. The elevator is just around the corner. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t18: </span> Thank you very much. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t19: </span> It is my pleasure, sir. I wish you a pleasant stay here. Goodbye! <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t20: </span> Bye-bye! <br/><br/>
+						<audio src="./audio/case-study/430_all.wav" controls="" preload=""></audio>
+					</div>
+					
+					<div class="section-content case-study" style="background-color: #d7f1f8;">
+						<div style="text-align: center;"><span style="font-weight: 700; font-size: 1.5rem;">Top 3 in Conversational style similarity ranking (Similarity: 0.770)</span><br/></div>
+						<br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t1: </span> Hello, who is speaking, please? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t2: </span> Hello, Mr. Stern. This is Hao Bo from the International Travel Agency. I have made the plane reservations for you. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t3: </span> Oh, good. Let me get a pencil and take down the information. Well, go ahead, please. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t4: </span> OK. You'll be travelling on Northwest Airlines, flight number two two two. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t5: </span> Umm what time does it leave? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t6: </span> It departs Guangzhou at ten:thirty on the morning of July tenth. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t7: </span> That is good. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t8: </span> You want to fly first class. Is that correct, Mr. Stern? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t9: </span> That's right. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t10: </span> Well, I have got you three first class tickets and I have reserved your seats. Your seat numbers are eight A, eight B and eight C. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t11: </span> Those are in the non-smoking section, aren't they? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t12: </span> Yes, they are. I have charged the tickets to your credit card. They are six thirty dollars each, so It is eighteen ninety dollars for all three. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t13: </span> Fine, thank you very much. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t14: </span> One more thing. Could you give me the names of the people you'll be travelling with? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t15: </span> Sure. They are my kids, Alex and Kathy Stern. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t16: </span> All right. You're all set. Have a nice flight. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t17: </span> Thanks. <br/><br/>
+						<audio src="./audio/case-study/1486_all.wav" controls="" preload=""></audio>
+					</div>
+					
+					
+					
+					
+					
+					<div class="section-content case-study" style="background-color: #d7f1f8;  height: 100%;">
+						<div style="text-align: center;"><span style="font-weight: 700; font-size: 1.5rem;">Top 10 in Conversational style similarity ranking (Similarity: 0.743)</span><br/></div>
+						<br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t1: </span> Good morning, Madam. This is room service, may I help you? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t2: </span> Good morning. I'd like to reserve some rooms for a tourist party. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t3: </span> All right. Umm what kind of room would you like? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t4: </span> You see, we are tourists whose requests are different, so please tell me more about it, will you? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t5: </span> It's my pleasure. We have single rooms, double rooms, suites and luxury suites, et cetera. Well, here is an introduction to our hotel. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t6: </span> That's great. I'd like to book four single rooms, five double rooms and three suites. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t7: </span> All right, madam. For which dates do you want to book the rooms? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t8: </span> From tomorrow till January eighth. That's five days in all. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t9: </span> I see. Now please fill out the form. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t10: </span> Here you are. Is everything OK? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t11: </span> Just a minute, madam. You should pay a deposit of five hundred yuan beforehand. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t12: </span> OK. Here you are. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t13: </span> Thank you. Please keep this receipt. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t14: </span> Thank you. By the way, is there any preferential rate for the party? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t15: </span> Yes, there is a fifteen percent discount. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t16: </span> That's wonderful. Thank you. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t17: </span> You're welcome. I hope all of you will have a good time here. <br/><br/>
+						<audio src="./audio/case-study/1810_all.wav" controls="" preload=""></audio>
+					</div>
+					
+					
+					
+					
+					
+					
+					
+					<div class="section-content case-study" style="background-color: #f5deee;">
+						<div style="text-align: center;"><span style="font-weight: 700; font-size: 1.5rem;">Bottom 1 in Conversational style similarity ranking (Similarity: -0.380)</span><br/></div>
+						<br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t1: </span> Hey, How's it going? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t2: </span> Not good. I lost my wallet. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t3: </span> Oh, that's too bad. Was it stolen? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t4: </span> No, I think it came out of my pocket when I was in the taxi. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t5: </span> Is there anything I can do? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t6: </span> Can I borrow some money? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t7: </span> Sure, how much do you need? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t8: </span> About fifty dollars. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t9: </span> That's no problem. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t10: </span> Thanks. I'll pay you back on Friday. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t11: </span> That'll be fine. Here you are.<br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t12: </span> What are you going to do now? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t13: </span> I'm going to buy some books and then I'm going to the gas station. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t14: </span> If you wait a minute I can go with you. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t15: </span> OK. I'll wait for you.   <br/><br/>
+						<audio src="./audio/case-study/204_all.wav" controls="" preload=""></audio>
+					</div>
+					
+					
+					
+					
+					<div class="section-content case-study" style="background-color: #f5deee;">
+						<div style="text-align: center;"><span style="font-weight: 700; font-size: 1.5rem;">Bottom 2 in Conversational style similarity ranking (Similarity: -0.343)</span><br/></div>
+						<br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t1: </span> Where's Mrs. Johnson? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t2: </span> Just call her Lisa, Mary. She's cooking dinner. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t3: </span> I see. Can I sit down? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t4: </span> Of course! Make yourself at home. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t5: </span> Thank you, Mr. Johnson. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t6: </span> Please, just call me Tom. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t7: </span> OK, Tom. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t8: </span> Where's Cindy? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t9: </span> She's upstairs in my room. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t10: </span> Umm.. Can you tell her to come downstairs? We're about to have dinner. <br/><br/>
+						<audio src="./audio/case-study/2524_all.wav" controls="" preload=""></audio>
+					</div>
+					
+				
+					
+					
+					<div class="section-content case-study" style="background-color: #f5deee;">
+						<div style="text-align: center;"><span style="font-weight: 700; font-size: 1.5rem;">Bottom 3 in Conversational style similarity ranking (Similarity: -0.331)</span><br/></div>
+						<br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t1: </span> Every year, the South has the floods. It is an act of God. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t2: </span> Do you really think so?conditioners. Hum, this one looks pretty good. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t3: </span> Yeah, umm, you have some other ideas? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t4: </span> Think, in some way it is an act of God, but in another way, it is just caused by us. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t5: </span> For example? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t6: </span> We didn't pay attention to the environment, cut down trees and polluted the air. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t7: </span> Oh, I see. Fortunately government has taken some action to prevent such things. <br/><br/>
+						<audio src="./audio/case-study/1107_all.wav" controls="" preload=""></audio>
+					</div>
+					
+					
+					
+					<div class="section-content case-study" style="background-color: #f5deee;">
+						<div style="text-align: center;"><span style="font-weight: 700; font-size: 1.5rem;">Bottom 10 in Conversational style similarity ranking (Similarity: -0.303)</span><br/></div>
+						<br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t1: </span> Umm I am not certain, but I think I might ask to be considered for the new job. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t2: </span> Why are you considering trying for it? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t3: </span> I think that I might like it, but I am still thinking about it. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t4: </span> What is it about this job that appeals to you? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t5: </span> I think that I would enjoy the position but there isn't a lot of creativity involved. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t6: </span> Yes, you could be right. There is a lot to consider. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t7: </span> I am also wondering about the pay. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t8: </span> Would a slight decrease in pay be worth it for a new opportunity for growth? <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t9: </span> I am thinking that might be the case. <br/>
+						<span style="font-weight: 700; font-size: 1.1rem; color: #4d4d4d;">t10: </span> I think you should give it a shot. What do you have to lose? You can always change your mind. <br/><br/>
+						<audio src="./audio/case-study/16_all.wav" controls="" preload=""></audio>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+	</body>
+</html>
