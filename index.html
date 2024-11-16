@@ -23,8 +23,8 @@
 					<div class="section-title">Abstract</div>
 					<div class="section-content abstract">
 						Conversational speech synthesis (CSS) aims to take the current dialogue history as reference to synthesize expressive speech that aligns with the conversational style. Unlike current dialogue (CD), stored dialogue (SD) contains preserved dialogue fragments from earlier stages of user-agent interaction, which include style expression knowledge relevant to scenarios similar to those in CD.
-						 Note that this knowledge plays a significant role in enabling the agent to synthesize expressive conversational speech that generates empathetic feedback. However, prior research has largely overlooked this aspect. To address this issue, we propose a novel Retrieval-Augmented Knowledge Aggregation scheme for expressive CSS, termed ReKA-CSS, which includes three main components: 1) To effectively retrieve dialogues from SD that are similar to CD in terms of both scenarios and style. In the first stage, we construct a stored dialogue semantic-style database (SDSSD) based on DailyTalk, which covers the text and audio content of each set of dialogues, as well as the semantic and style vectors of the dialogues. In the second stage, we design a multi-attribute retrieval method. First, to avoid incomplete dialogue style information due to the lack of an $a_N$ style vector, we design an $a_N$ vector predictor to predict the style vector for $a_N$. Then, the dialogue semantic and style vectors of CD are matched with the stored dialogue semantic and style vectors in SDSSD, retrieving the Top-K most similar dialogues based on combined semantic and style similarity. 2) To effectively utilize the multi-source knowledge from CD and SD, we design a multi-source style knowledge augmentor to integrate style knowledge of CD, style knowledge of SD, and the predicted $a_N$ style knowledge. 3) Finally, we feed the aggregated multi-source style knowledge into the speech synthesizer to help the CSS model synthesize expressive speech that aligns with the conversational style. Both objective and subjective evaluations demonstrate that our model outperforms baseline models in expressiveness rendering. Code and audio samples can be found at:
-						 <a href="https://github.com/Coder-jzq/ReKA-CSS">https://github.com/Coder-jzq/ReKA-CSS</a>
+						 Note that this knowledge plays a significant role in enabling the agent to synthesize expressive conversational speech that generates empathetic feedback. However, prior research has largely overlooked this aspect. To address this issue, we propose a novel Retrieval-Augmented Knowledge Aggregation scheme for expressive CSS, termed RADKA-CSS, which includes three main components: 1) To effectively retrieve dialogues from SD that are similar to CD in terms of both scenarios and style. In the first stage, we construct a stored dialogue semantic-style database (SDSSD) based on DailyTalk, which covers the text and audio content of each set of dialogues, as well as the semantic and style vectors of the dialogues. In the second stage, we design a multi-attribute retrieval method. First, to avoid incomplete dialogue style information due to the lack of an $a_N$ style vector, we design an $a_N$ vector predictor to predict the style vector for $a_N$. Then, the dialogue semantic and style vectors of CD are matched with the stored dialogue semantic and style vectors in SDSSD, retrieving the Top-K most similar dialogues based on combined semantic and style similarity. 2) To effectively utilize the multi-source knowledge from CD and SD, we design a multi-source style knowledge augmentor to integrate style knowledge of CD, style knowledge of SD, and the predicted $a_N$ style knowledge. 3) Finally, we feed the aggregated multi-source style knowledge into the speech synthesizer to help the CSS model synthesize expressive speech that aligns with the conversational style. Both objective and subjective evaluations demonstrate that our model outperforms baseline models in expressiveness rendering. Code and audio samples can be found at:
+						 <a href="https://github.com/Coder-jzq/RADKA-CSS">https://github.com/Coder-jzq/RADKA-CSS</a>
 						.
 					</div>
 				</div>
@@ -34,7 +34,7 @@
 					<div class="section-content model">
 						<img src="./img/Fig2-ReKA-CSS-main-c.png" alt="" class="model-img">
 						
-						<p style="padding-top: 1rem; color: #a1a1a1; font-size: 1rem; text-align: center;">Figure: Overview of our proposed ReKA-CSS model.</p>
+						<p style="padding-top: 1rem; color: #a1a1a1; font-size: 1rem; text-align: center;">Figure: Overview of our proposed RADKA-CSS model.</p>
 					</div>
 				</div>
 				
@@ -50,14 +50,14 @@
 						 </br> 4) <b>CONCSS</b> introduces a CSS framework based on contrastive learning, which incorporates a negative-sample-enhanced sampling strategy to improve the discriminability of context vectors. This enables the model to perform self-supervised learning on unlabeled dialogue datasets, enhancing the model' s understanding of context.
 						 </br> 5) <b>ECSS</b> presents a new emotion CSS model based on heterogeneous graph-based emotion context modeling and an emotion rendering mechanism, ensuring accurate generation of emotional conversational speech in terms of both emotion understanding and expression.
 						 </br><strong>Ablation Experiment:</strong>
-						 </br> 1) <b>Abl.1: w/o Style Knowledge (SD)</b> indicates the removal of similar dialogue knowledge retrieved from Stored Dialogue.
-						 </br> 2) <b>Abl.2: w/o Style Knowledge (CD: Text)</b> indicates that encoded textual knowledge from the current dialogue is not aggregated.
-						 </br> 3) <b>Abl.3: w/o Style Knowledge (CD: Audio)</b> indicates that encoded audio knowledge from the current dialogue is not aggregated.
-						 </br> 4) <b>Abl.4: w/o Style Knowledge ($a_N$ Style Vector)</b> indicates that the $a_N$ style knowledge predicted by the $a_N$ Vector Predictor is not aggregated.
-						 </br> 5) <b>Abl.5: w/o Heterogeneous Graph</b> replaces ReKA's heterogeneous graph with a homogeneous graph to verify the effectiveness of the proposed heterogeneous structure with three granularity levels of nodes and four types of relationships.
-						 </br> 6) <b>Abl.6: w/o Multi-granularity</b> removes the dialogue-level and word-level nodes, using only sentence-level nodes for training.
-						 </br> 7) <b>Abl.7: w/o Knowledge Aggregation Method</b> replaces the knowledge aggregation method with simple direct addition.
-						 </br> 8) <b>Abl.8: w/ GT (Retrieved)</b> uses the ground truth Top-K dialogue set instead of the Top-K dialogue set retrieved during inference.
+						 </br> 1) <b>Ablation 1: w/o Style Knowledge (SD)</b> indicates the removal of similar dialogue knowledge retrieved from Stored Dialogue.
+						 </br> 2) <b>Ablation 2: w/o Style Knowledge (CD: Text)</b> indicates that encoded textual knowledge from the current dialogue is not aggregated.
+						 </br> 3) <b>Ablation 3: w/o Style Knowledge (CD: Audio)</b> indicates that encoded audio knowledge from the current dialogue is not aggregated.
+						 </br> 4) <b>Ablation 4: w/o Style Knowledge ($a_N$ Style Vector)</b> indicates that the $a_N$ style knowledge predicted by the $a_N$ Vector Predictor is not aggregated.
+						 </br> 5) <b>Ablation 5: w/o Heterogeneous Graph</b> replaces RADKA-CSS's heterogeneous graph with a homogeneous graph to verify the effectiveness of the proposed heterogeneous structure with three granularity levels of nodes and four types of relationships.
+						 </br> 6) <b>Ablation 6: w/o Multi-granularity</b> removes the dialogue-level and word-level nodes, using only sentence-level nodes for training.
+						 </br> 7) <b>Ablation 7: w/o Knowledge Aggregation Method</b> replaces the knowledge aggregation method with simple direct addition.
+						 </br> 8) <b>Ablation 8: w/ GT (Retrieved)</b> uses the ground truth Top-K dialogue set instead of the Top-K dialogue set retrieved during inference.
 					
 					
 						
@@ -139,7 +139,7 @@
 										  <th colspan="1" style="text-align: center"><strong>Homogeneous Graph-based CSS</strong></th>
 										  <th colspan="1" style="text-align: center"><strong>CONCSS</strong></th>
 										  <th colspan="1" style="text-align: center"><strong>ECSS</strong></th>
-										  <th colspan="1" style="text-align: center"><strong style="color: #1d5da4;">ReKA-CSS</strong></th>
+										  <th colspan="1" style="text-align: center"><strong style="color: #1d5da4;">RADKA-CSS</strong></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -359,7 +359,7 @@
 										  <th colspan="1" style="text-align: center"><strong>Homogeneous Graph-based CSS</strong></th>
 										  <th colspan="1" style="text-align: center"><strong>CONCSS</strong></th>
 										  <th colspan="1" style="text-align: center"><strong>ECSS</strong></th>
-										  <th colspan="1" style="text-align: center"><strong style="color: #1d5da4;">ReKA-CSS</strong></th>
+										  <th colspan="1" style="text-align: center"><strong style="color: #1d5da4;">RADKA-CSS</strong></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -568,7 +568,7 @@
 										  <th colspan="1" style="text-align: center"><strong>Homogeneous Graph-based CSS</strong></th>
 										  <th colspan="1" style="text-align: center"><strong>CONCSS</strong></th>
 										  <th colspan="1" style="text-align: center"><strong>ECSS</strong></th>
-										  <th colspan="1" style="text-align: center"><strong style="color: #1d5da4;">ReKA-CSS</strong></th>
+										  <th colspan="1" style="text-align: center"><strong style="color: #1d5da4;">RADKA-CSS</strong></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -726,7 +726,7 @@
 										  <th colspan="1" style="text-align: center"><strong>Homogeneous Graph-based CSS</strong></th>
 										  <th colspan="1" style="text-align: center"><strong>CONCSS</strong></th>
 										  <th colspan="1" style="text-align: center"><strong>ECSS</strong></th>
-										  <th colspan="1" style="text-align: center"><strong style="color: #1d5da4;">ReKA-CSS</strong></th>
+										  <th colspan="1" style="text-align: center"><strong style="color: #1d5da4;">RADKA-CSS</strong></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -798,7 +798,7 @@
 					<div class="section-title" id="case-study">Case Study</div>
 					<div class="section-content case-study">
 						<p>
-							We present the current dialogue along with the Top 1, Top 2, Top 3, and Top 10 dialogues retrieved by ReKA-CSS that are most similar in conversational style to the current dialogue, as well as the Bottom 1, Bottom 2, Bottom 3, and Bottom 10 dialogues that are the least similar in conversational style. The similarity  is calculated using cosine similarity.
+							We present the current dialogue along with the Top 1, Top 2, Top 3, and Top 10 dialogues retrieved by RADKA-CSS that are most similar in conversational style to the current dialogue, as well as the Bottom 1, Bottom 2, Bottom 3, and Bottom 10 dialogues that are the least similar in conversational style. The similarity  is calculated using cosine similarity.
 						</p>
 						<p>
 							CD belongs to a dialogue scenario about hotel room reservations. The dialogues ranked in the Top 1 and Top 10 are all related to hotel room reservations, while those in the Bottom 1 and Bottom 10 do not belong to the hotel reservation scenarios. Based on the audio analysis of these dialogues, the dialogue styles in Top 1 and Top 10 are very similar to CD, whereas the styles in Bottom 1 and Bottom 10 show significant differences.
